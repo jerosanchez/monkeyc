@@ -24,6 +24,8 @@ func New(input string) *Lexer {
 func (self *Lexer) NextToken() token.Token {
 	var tokenFound token.Token
 	
+	self.skipWhitespace()
+	
 	switch self.currentChar {
 	
 	// Operators
@@ -54,8 +56,8 @@ func (self *Lexer) NextToken() token.Token {
 	// Identifiers
 	default:
 		if isLetter(self.currentChar) {
-			tokenFound.Type = token.IDENT
 			tokenFound.Literal = self.readIdentifier()
+			tokenFound.Type = token.TypeFor(tokenFound.Literal)
 			
 		} else if isDigit(self.currentChar) {
 			tokenFound.Type = token.INT
@@ -82,6 +84,12 @@ func (self *Lexer) readChar() {
 	
 	self.currentPos = self.readPos
 	self.readPos += 1
+}
+
+func (self *Lexer) skipWhitespace() {
+	for self.currentChar == ' ' || self.currentChar == '\t' || self.currentChar == '\n' || self.currentChar == '\r' {
+		self.readChar()
+	}
 }
 
 func newToken(tokenType token.TokenType, char byte) token.Token {

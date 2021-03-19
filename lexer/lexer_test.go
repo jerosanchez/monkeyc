@@ -46,6 +46,18 @@ func Test_NextToken_RecognizesIdentifiers(t *testing.T) {
 	assertProducing(input, expectedTokens, t)	
 }
 
+func Test_NextToken_RecognizesKeywords(t *testing.T) {
+	input := `fn let`
+	
+	expectedTokens := []token.Token {
+		{token.FUNCTION, "fn"},
+		{token.LET, "let"},
+		{token.EOF, ""},
+	}
+			
+	assertProducing(input, expectedTokens, t)	
+}
+
 func Test_NextToken_RecognizesIntegers(t *testing.T) {
 	input := `0123456789`
 	

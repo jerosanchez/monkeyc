@@ -29,7 +29,25 @@ const (
 	LBRACE = "{"
 	RBRACE = "}"
 	
+	// Keywords
+	FUNCTION = "FUNCTION"
+	LET = "LET"
+
 	// Control
 	EOF = "EOF"
 	ILLEGAL = "ILLEGAL"
 )
+
+func TypeFor(ident string) TokenType {
+	if keywordType, ok := keywords[ident]; ok {
+		return keywordType
+	}
+	
+	return IDENT
+}
+
+var keywords = map[string]TokenType {
+	"fn": FUNCTION,
+	"let": LET,
+}
+
