@@ -10,31 +10,19 @@ import (
 func Test_NextToken_RecognizesOperators(t *testing.T) {
 	input := `=+`
 	
-	tests := []token.Token {
+	expectedTokens := []token.Token {
 		{token.ASSIGN, "="},
 		{token.PLUS, "+"},
 		{token.EOF, ""},
 	}
 	
-	lexer := New(input)
-	
-	for i, expectedToken := range tests {
-		receivedToken := lexer.NextToken()
-		
-		if receivedToken.Type != expectedToken.Type {
-			t.Fatalf("tests[%d] - wrong token type: expected %q, expected %q instead", i, expectedToken.Type, receivedToken.Type)
-		}
-		
-		if receivedToken.Literal != expectedToken.Literal {
-			t.Fatalf("tests[%d] - wrong token literal: expected %q, expected %q instead", i, expectedToken.Literal, receivedToken.Literal)
-		}	
-	}
+	assertProducing(input, expectedTokens, t)	
 }
 
 func Test_NextToken_RecognizesDelimiters(t *testing.T) {
 	input := `,;(){}`
 	
-	tests := []token.Token {
+	expectedTokens := []token.Token {
 		{token.COMMA, ","},
 		{token.SEMICOLON, ";"},
 		{token.LPAREN, "("},
@@ -43,19 +31,24 @@ func Test_NextToken_RecognizesDelimiters(t *testing.T) {
 		{token.RBRACE, "}"},
 		{token.EOF, ""},
 	}
-	
+			
+	assertProducing(input, expectedTokens, t)	
+}
+
+// Helpers
+
+func assertProducing(input string, expectedTokens []token.Token, t *testing.T) {
 	lexer := New(input)
-	
-	for i, expectedToken := range tests {
+
+	for i, expectedToken := range expectedTokens {
 		receivedToken := lexer.NextToken()
 		
 		if receivedToken.Type != expectedToken.Type {
-			t.Fatalf("tests[%d] - wrong token type: expected %q, expected %q instead", i, expectedToken.Type, receivedToken.Type)
+			t.Fatalf("tests[%d] - wrong token type: expected %q, got %q instead", i, expectedToken.Type, receivedToken.Type)
 		}
 		
 		if receivedToken.Literal != expectedToken.Literal {
-			t.Fatalf("tests[%d] - wrong token literal: expected %q, expected %q instead", i, expectedToken.Literal, receivedToken.Literal)
+			t.Fatalf("tests[%d] - wrong token literal: expected %q, got %q instead", i, expectedToken.Literal, receivedToken.Literal)
 		}	
 	}
 }
-
