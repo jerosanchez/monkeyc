@@ -58,10 +58,12 @@ func (self *Lexer) NextToken() token.Token {
 		if isLetter(self.currentChar) {
 			tokenFound.Literal = self.readIdentifier()
 			tokenFound.Type = token.TypeFor(tokenFound.Literal)
+			return tokenFound
 			
 		} else if isDigit(self.currentChar) {
 			tokenFound.Type = token.INT
 			tokenFound.Literal = self.readNumber()
+			return tokenFound
 			
 		} else {
 			tokenFound = newToken(token.ILLEGAL, self.currentChar)
