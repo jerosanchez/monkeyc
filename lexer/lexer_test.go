@@ -35,6 +35,18 @@ func Test_NextToken_RecognizesDelimiters(t *testing.T) {
 	assertProducing(input, expectedTokens, t)	
 }
 
+func Test_NextToken_RecognizesIdentifiers(t *testing.T) {
+	input := `an_Identifier`
+	
+	expectedTokens := []token.Token {
+		{token.IDENT, "an_Identifier"},
+		{token.EOF, ""},
+	}
+			
+	assertProducing(input, expectedTokens, t)	
+}
+
+
 // Helpers
 
 func assertProducing(input string, expectedTokens []token.Token, t *testing.T) {

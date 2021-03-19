@@ -25,7 +25,7 @@ func (self *Lexer) NextToken() token.Token {
 	var tokenFound token.Token
 	
 	switch self.currentChar {
-		
+	
 	// Operators
 	case '=':
 		tokenFound = newToken(token.ASSIGN, self.currentChar)
@@ -50,6 +50,16 @@ func (self *Lexer) NextToken() token.Token {
 	case 0:
 		tokenFound.Type = token.EOF
 		tokenFound.Literal = ""
+		
+	// Identifiers
+	default:
+		if isLetter(self.currentChar) {
+			tokenFound.Type = token.IDENT
+			tokenFound.Literal = self.readIdentifier()
+			
+		} else {
+			tokenFound = newToken(token.ILLEGAL, self.currentChar)
+		}
 	}
 	
 	self.readChar()
@@ -72,4 +82,18 @@ func (self *Lexer) readChar() {
 
 func newToken(tokenType token.TokenType, char byte) token.Token {
 	return token.Token{Type:tokenType, Literal: string(char)}
+}
+
+func isLetter(char byte) bool {
+	return 'a' <= char && char <= 'z' || 
+		'A' <= char && char <= 'Z' || 
+		char == '_'
+}
+
+func (self *Lexer) readIdentifier() string {
+	initialPos := self.currentPos
+	for isLetter(self.currentChar) {
+		self.readChar()
+	}
+	return self.input[initialPos:self.currentPos]
 }

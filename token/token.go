@@ -10,6 +10,9 @@ type Token struct {
 }
 
 const (	
+	// Identifiers
+	IDENT = "IDENT"
+
 	// Operators
 	ASSIGN = "="
 	PLUS = "+"
@@ -25,4 +28,5 @@ const (
 	
 	// Control
 	EOF = "EOF"
+	ILLEGAL = "ILLEGAL"
 )
