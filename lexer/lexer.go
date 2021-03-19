@@ -57,6 +57,10 @@ func (self *Lexer) NextToken() token.Token {
 			tokenFound.Type = token.IDENT
 			tokenFound.Literal = self.readIdentifier()
 			
+		} else if isDigit(self.currentChar) {
+			tokenFound.Type = token.INT
+			tokenFound.Literal = self.readNumber()
+			
 		} else {
 			tokenFound = newToken(token.ILLEGAL, self.currentChar)
 		}
@@ -93,6 +97,18 @@ func isLetter(char byte) bool {
 func (self *Lexer) readIdentifier() string {
 	initialPos := self.currentPos
 	for isLetter(self.currentChar) {
+		self.readChar()
+	}
+	return self.input[initialPos:self.currentPos]
+}
+
+func isDigit(char byte) bool {
+	return '0' <= char && char <= '9'
+}
+
+func (self *Lexer) readNumber() string {
+	initialPos := self.currentPos
+	for isDigit(self.currentChar) {
 		self.readChar()
 	}
 	return self.input[initialPos:self.currentPos]

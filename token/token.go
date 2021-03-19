@@ -12,6 +12,9 @@ type Token struct {
 const (	
 	// Identifiers
 	IDENT = "IDENT"
+	
+	// Literals
+	INT = "INT"
 
 	// Operators
 	ASSIGN = "="

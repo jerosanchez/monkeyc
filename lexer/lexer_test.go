@@ -46,6 +46,16 @@ func Test_NextToken_RecognizesIdentifiers(t *testing.T) {
 	assertProducing(input, expectedTokens, t)	
 }
 
+func Test_NextToken_RecognizesIntegers(t *testing.T) {
+	input := `0123456789`
+	
+	expectedTokens := []token.Token {
+		{token.INT, "0123456789"},
+		{token.EOF, ""},
+	}
+			
+	assertProducing(input, expectedTokens, t)	
+}
 
 // Helpers
 
