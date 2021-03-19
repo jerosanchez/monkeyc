@@ -14,6 +14,15 @@ const (
 	ASSIGN = "="
 	PLUS = "+"
 	
+	// Delimiters
+	COMMA = ","
+	SEMICOLON = ";"
+	
+	LPAREN = "("
+	RPAREN = ")"
+	LBRACE = "{"
+	RBRACE = "}"
+	
 	// Control
 	EOF = "EOF"
 )

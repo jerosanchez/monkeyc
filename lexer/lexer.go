@@ -32,6 +32,20 @@ func (self *Lexer) NextToken() token.Token {
 	case '+':
 		tokenFound = newToken(token.PLUS, self.currentChar)
 		
+	// Delimiters
+	case ',':
+		tokenFound = newToken(token.COMMA, self.currentChar)
+	case ';':
+		tokenFound = newToken(token.SEMICOLON, self.currentChar)
+	case '(':
+		tokenFound = newToken(token.LPAREN, self.currentChar)
+	case ')':
+		tokenFound = newToken(token.RPAREN, self.currentChar)
+	case '{':
+		tokenFound = newToken(token.LBRACE, self.currentChar)
+	case '}':
+		tokenFound = newToken(token.RBRACE, self.currentChar)
+	
 	// Control
 	case 0:
 		tokenFound.Type = token.EOF
