@@ -30,34 +30,55 @@ func (self *Lexer) NextToken() token.Token {
 	
 	// Operators
 	case '=':
-		tokenFound = newToken(token.ASSIGN, self.currentChar)
+		if self.peekChar() == '=' {
+			self.readChar()
+			tokenFound = token.Token{token.EQ, "=="}
+		} else {
+			tokenFound = newToken(token.ASSIGN, self.currentChar)
+		}
+	
 	case '+':
 		tokenFound = newToken(token.PLUS, self.currentChar)
+	
 	case '-':
 		tokenFound = newToken(token.MINUS, self.currentChar)
+	
 	case '*':
 		tokenFound = newToken(token.ASTERISK, self.currentChar)
+	
 	case '/':
 		tokenFound = newToken(token.SLASH, self.currentChar)
+	
 	case '!':
-		tokenFound = newToken(token.BANG, self.currentChar)
+		if self.peekChar() == '=' {
+			self.readChar()
+			tokenFound = token.Token{token.NEQ, "!="}
+		} else {
+			tokenFound = newToken(token.BANG, self.currentChar)
+		}
 	
 	case '<':
 		tokenFound = newToken(token.LT, self.currentChar)
+	
 	case '>':
 		tokenFound = newToken(token.GT, self.currentChar)	
 		
 	// Delimiters
 	case ',':
 		tokenFound = newToken(token.COMMA, self.currentChar)
+	
 	case ';':
 		tokenFound = newToken(token.SEMICOLON, self.currentChar)
+	
 	case '(':
 		tokenFound = newToken(token.LPAREN, self.currentChar)
+	
 	case ')':
 		tokenFound = newToken(token.RPAREN, self.currentChar)
+	
 	case '{':
 		tokenFound = newToken(token.LBRACE, self.currentChar)
+	
 	case '}':
 		tokenFound = newToken(token.RBRACE, self.currentChar)
 	
@@ -99,6 +120,14 @@ func (self *Lexer) readChar() {
 	
 	self.currentPos = self.readPos
 	self.readPos += 1
+}
+
+func (self *Lexer) peekChar() byte {
+	if self.readPos >= len(self.input) {
+		return 0
+	} else {
+		return self.input[self.readPos]
+	}
 }
 
 func (self *Lexer) skipWhitespace() {
