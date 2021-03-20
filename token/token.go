@@ -37,8 +37,13 @@ const (
 	RBRACE = "}"
 	
 	// Keywords
+	ELSE = "ELSE"
+	FALSE = "FALSE"
 	FUNCTION = "FUNCTION"
+	IF = "IF"
 	LET = "LET"
+	RETURN = "RETURN"
+	TRUE = "TRUE"
 
 	// Control
 	EOF = "EOF"
@@ -54,7 +59,12 @@ func TypeFor(ident string) TokenType {
 }
 
 var keywords = map[string]TokenType {
+	"else": ELSE,
+	"false": FALSE,
 	"fn": FUNCTION,
+	"if": IF,
 	"let": LET,
+	"return": RETURN,
+	"true": TRUE,
 }
 

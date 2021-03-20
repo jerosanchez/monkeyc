@@ -53,11 +53,16 @@ func Test_NextToken_RecognizesIdentifiers(t *testing.T) {
 }
 
 func Test_NextToken_RecognizesKeywords(t *testing.T) {
-	input := `fn let`
+	input := `else false fn if let return true`
 	
 	expectedTokens := []token.Token {
+		{token.ELSE, "else"},
+		{token.FALSE, "false"},
 		{token.FUNCTION, "fn"},
+		{token.IF, "if"},
 		{token.LET, "let"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
 		{token.EOF, ""},
 	}
 			
