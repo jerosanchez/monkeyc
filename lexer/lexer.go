@@ -33,6 +33,19 @@ func (self *Lexer) NextToken() token.Token {
 		tokenFound = newToken(token.ASSIGN, self.currentChar)
 	case '+':
 		tokenFound = newToken(token.PLUS, self.currentChar)
+	case '-':
+		tokenFound = newToken(token.MINUS, self.currentChar)
+	case '*':
+		tokenFound = newToken(token.ASTERISK, self.currentChar)
+	case '/':
+		tokenFound = newToken(token.SLASH, self.currentChar)
+	case '!':
+		tokenFound = newToken(token.BANG, self.currentChar)
+	
+	case '<':
+		tokenFound = newToken(token.LT, self.currentChar)
+	case '>':
+		tokenFound = newToken(token.GT, self.currentChar)	
 		
 	// Delimiters
 	case ',':

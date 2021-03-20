@@ -8,11 +8,17 @@ import (
 )
 
 func Test_NextToken_RecognizesOperators(t *testing.T) {
-	input := `=+`
+	input := `=+-*/!<>`
 	
 	expectedTokens := []token.Token {
 		{token.ASSIGN, "="},
 		{token.PLUS, "+"},
+		{token.MINUS, "-"},
+		{token.ASTERISK, "*"},
+		{token.SLASH, "/"},
+		{token.BANG, "!"},
+		{token.LT, "<"},
+		{token.GT, ">"},
 		{token.EOF, ""},
 	}
 	
