@@ -3,6 +3,7 @@
 package parser
 
 import (
+	"fmt"
 	"monkeyc/ast"
 	"monkeyc/lexer"
 	"monkeyc/token"
@@ -13,10 +14,15 @@ type Parser struct {
 
 	currentToken token.Token
 	nextToken token.Token
+
+	errors []string
 }
 
 func New(aLexer *lexer.Lexer) *Parser {
-	instance := &Parser{theLexer: aLexer}
+	instance := &Parser{
+		theLexer: aLexer,
+		errors: []string{},
+	}
 
 	instance.readToken()
 	instance.readToken()
@@ -41,6 +47,10 @@ func (self *Parser) ParseProgram() *ast.Program {
 	return program
 }
 
+func (self *Parser) Errors() []string {
+	return self.errors
+}
+
 // Helpers
 
 func (self *Parser) readToken() {
@@ -61,8 +71,14 @@ func (self *Parser) consumeToken(expectedType token.TokenType) bool {
 		self.readToken()
 		return true
 	} else {
+		self.logParsingError(expectedType)
 		return false
 	}
+}
+
+func (self *Parser) logParsingError(expectedType token.TokenType) {
+	errorMessage := fmt.Sprintf("Expected next token to be %s, got %s instead", expectedType, self.nextToken.Type)
+	self.errors = append(self.errors, errorMessage)
 }
 
 func (self *Parser) parseStatement() ast.Statement {

@@ -8,6 +8,28 @@ import (
 	"monkeyc/lexer"
 )
 
+func TestParserReportsLetParsingErrors(t *testing.T) {
+	input := `
+	let 123 = 5;
+	let = ;
+	let foo 5;
+	`
+
+	aLexer := lexer.New(input)
+	sut := New(aLexer)
+
+	_ = sut.ParseProgram()
+
+	errorsCount := len(sut.Errors())
+	if errorsCount != 3 {
+		t.Errorf("Expected %d parsing errors, got %d instead:", 3, errorsCount)
+		for _, message := range sut.Errors() {
+			t.Errorf("   > %q", message)
+		}
+		t.Fatalf("")
+	}
+}
+
 func TestLetStatements(t *testing.T) {
 	input := `
 	let x = 5;
@@ -18,6 +40,7 @@ func TestLetStatements(t *testing.T) {
 	sut := New(aLexer)
 
 	program := sut.ParseProgram()
+	checkParserErrors(sut, t)
 
 	expectedStatementsCount := 2
 	assertProgram(program, expectedStatementsCount, t)
@@ -48,6 +71,21 @@ func assertProgram(program *ast.Program, expectedStatementsCount int, t *testing
 	if statementsCount != expectedStatementsCount {
 		t.Fatalf("Expected %d statements, got %d instead", expectedStatementsCount, statementsCount)
 	}
+}
+
+func checkParserErrors(theParser *Parser, t *testing.T) {
+	errors := theParser.Errors()
+
+	if len(errors) == 0 {
+		return 
+	}
+
+	t.Errorf("Parser found %d errors:", len(errors))
+	for _, message := range errors {
+		t.Errorf("   > %q", message)
+	}
+
+	t.FailNow()
 }
 
 func assertLetStatement(statement ast.Statement, expectedName string, t *testing.T) bool {
