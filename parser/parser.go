@@ -85,6 +85,8 @@ func (self *Parser) parseStatement() ast.Statement {
 	switch self.currentToken.Type {
 	case token.LET:
 		return self.parseLetStatement()
+	case token.RETURN:
+		return self.parseReturnStatement()
 	default:
 		return nil
 	}

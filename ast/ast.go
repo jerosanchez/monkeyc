@@ -46,6 +46,19 @@ func (self *LetStatement) TokenLiteral() string {
 	return self.Token.Literal
 }
 
+// return
+
+type ReturnStatement struct {
+	Token token.Token
+	ReturnValue Expression
+}
+
+func (self *ReturnStatement) statementNode() { }
+
+func (self *ReturnStatement) TokenLiteral() string {
+	return self.Token.Literal
+}
+
 // identifier
 
 type Identifier struct {
